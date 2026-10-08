@@ -1,0 +1,24 @@
+{
+  "type": "mcjtylib:copy_components",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+      "M": "rftoolsbuilder:shape_card_quarry",
+      "d": "minecraft:diamond",
+      "e": "minecraft:emerald",
+      "n": "minecraft:ghast_tear",
+      "r": "minecraft:redstone",
+      "s": "rftoolsbase:dimensionalshard"
+    },
+    "pattern": [
+      "sns",
+      "eMd",
+      "srs"
+    ],
+    "result": {
+      "count": 1,
+      "id": "rftoolsbuilder:shape_card_quarry_fortune"
+    }
+  }
+}

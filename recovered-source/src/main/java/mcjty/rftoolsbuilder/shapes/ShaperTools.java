@@ -1,0 +1,29 @@
+package mcjty.rftoolsbuilder.shapes;
+
+import mcjty.lib.typed.TypedMap;
+import mcjty.rftoolsbuilder.modules.scanner.network.PacketReturnExtraData;
+import mcjty.rftoolsbuilder.setup.ClientCommandHandler;
+import mcjty.rftoolsbuilder.setup.RFToolsBuilderMessages;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+
+public class ShaperTools {
+   public static void requestExtraShapeData(Player player, int scanId) {
+      ScanExtraData extraData = ScanDataManager.get(player.level()).getExtraData(scanId);
+      RFToolsBuilderMessages.sendToPlayer(PacketReturnExtraData.create(scanId, extraData), player);
+   }
+
+   public static void requestLocatorEnergyConsumption(Player player, BlockPos pos) {
+      Level world = player.level();
+      BlockEntity te = world.getBlockEntity(pos);
+   }
+
+   public static void requestScanDirty(Player player, int scanId) {
+      int counter = ScanDataManager.get(player.level()).loadScan(player.level(), scanId).getDirtyCounter();
+      RFToolsBuilderMessages.sendToClient(
+         player, "returnScanDirty", TypedMap.builder().put(ClientCommandHandler.PARAM_SCANID, scanId).put(ClientCommandHandler.PARAM_COUNTER, counter)
+      );
+   }
+}

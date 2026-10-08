@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": "#c:glass_blocks",
+    "l": "#c:dyes/blue",
+    "w": "#minecraft:wool"
+  },
+  "pattern": [
+    "www",
+    "lGl",
+    "www"
+  ],
+  "result": {
+    "count": 8,
+    "id": "rftoolsbuilder:blue_shield_template_block"
+  }
+}

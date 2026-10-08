@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": "minecraft:bricks",
+    "i": "#c:ingots/iron",
+    "p": "minecraft:paper",
+    "r": "minecraft:redstone"
+  },
+  "pattern": [
+    "pBp",
+    "rir",
+    "pBp"
+  ],
+  "result": {
+    "count": 1,
+    "id": "rftoolsbuilder:shape_card_def"
+  }
+}

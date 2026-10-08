@@ -1,0 +1,23 @@
+package mcjty.rftoolsbuilder.setup;
+
+import mcjty.lib.compat.MainCompatHandler;
+import mcjty.lib.setup.DefaultModSetup;
+import mcjty.rftoolsbuilder.compat.rftoolsutility.RFToolsSupport;
+import net.neoforged.fml.InterModComms;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.world.chunk.TicketController;
+
+public class ModSetup extends DefaultModSetup {
+   public TicketController ticketController;
+
+   public void init(FMLCommonSetupEvent e) {
+      super.init(e);
+      e.enqueueWork(() -> CommandHandler.registerCommands());
+   }
+
+   protected void setupModCompat() {
+      MainCompatHandler.registerWaila();
+      MainCompatHandler.registerTOP();
+      InterModComms.sendTo("rftoolsutility", "getScreenModuleRegistry", RFToolsSupport.GetScreenModuleRegistry::new);
+   }
+}

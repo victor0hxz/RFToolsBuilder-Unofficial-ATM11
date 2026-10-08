@@ -1,0 +1,59 @@
+package mcjty.rftoolsbuilder.modules.scanner.network;
+
+import mcjty.rftoolsbuilder.modules.builder.items.ShapeCardItem;
+import mcjty.rftoolsbuilder.shapes.IFormula;
+import mcjty.rftoolsbuilder.shapes.Shape;
+import mcjty.rftoolsbuilder.shapes.ShapeDataManagerServer;
+import mcjty.rftoolsbuilder.shapes.ShapeID;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload.Type;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+
+public record PacketRequestShapeData(ItemStack card, ShapeID shapeID, int checksum) implements CustomPacketPayload {
+   public static final Identifier ID = Identifier.fromNamespaceAndPath("rftoolsbuilder", "requestshapedata");
+   public static final Type<PacketRequestShapeData> TYPE = new Type(ID);
+   public static final StreamCodec<RegistryFriendlyByteBuf, PacketRequestShapeData> CODEC = StreamCodec.composite(
+      ItemStack.STREAM_CODEC,
+      PacketRequestShapeData::card,
+      ShapeID.STREAM_CODEC,
+      PacketRequestShapeData::shapeID,
+      ByteBufCodecs.INT,
+      PacketRequestShapeData::checksum,
+      PacketRequestShapeData::new
+   );
+
+   public Type<? extends CustomPacketPayload> type() {
+      return TYPE;
+   }
+
+   public static PacketRequestShapeData create(ItemStack card, ShapeID id, int checksum) {
+      return new PacketRequestShapeData(card, id, checksum);
+   }
+
+   public void handle(IPayloadContext ctx) {
+      ctx.enqueueWork(() -> {
+         Player player = ctx.player();
+         Shape shape = ShapeCardItem.getShape(this.card);
+         boolean shapeSolid = ShapeCardItem.isSolid(this.card);
+         boolean optimizeRenderShell = this.shapeID.isSolid();
+         BlockPos clamped = ShapeCardItem.getShapeDataDimension(this.card);
+         int dy = clamped.getY();
+         ItemStack copy = this.card.copy();
+         IFormula formula = shape.getFormulaFactory().get();
+         formula = formula.correctFormula(shapeSolid);
+         formula.setup(player.level(), new BlockPos(0, 0, 0), clamped, new BlockPos(0, 0, 0), copy);
+
+         for (int y = 0; y < dy; y++) {
+            ShapeDataManagerServer.pushWork(this.shapeID, copy, y, formula, optimizeRenderShell, this.checksum, (ServerPlayer)player);
+         }
+      });
+   }
+}

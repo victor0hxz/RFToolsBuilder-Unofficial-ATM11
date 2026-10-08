@@ -1,0 +1,21 @@
+{
+  "type": "mcjtylib:copy_components",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+      "M": "rftoolsbuilder:shield_block1",
+      "O": "minecraft:obsidian",
+      "R": "minecraft:redstone_block"
+    },
+    "pattern": [
+      "ROR",
+      "OMO",
+      "ROR"
+    ],
+    "result": {
+      "count": 1,
+      "id": "rftoolsbuilder:shield_block2"
+    }
+  }
+}

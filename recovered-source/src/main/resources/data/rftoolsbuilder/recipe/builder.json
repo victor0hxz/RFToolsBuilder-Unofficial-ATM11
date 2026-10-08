@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": "minecraft:bricks",
+    "F": "rftoolsbase:machine_frame",
+    "o": "#c:ender_pearls",
+    "r": "minecraft:redstone"
+  },
+  "pattern": [
+    "BoB",
+    "rFr",
+    "BrB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "rftoolsbuilder:builder"
+  }
+}

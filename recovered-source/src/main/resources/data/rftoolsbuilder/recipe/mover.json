@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "minecraft:rail",
+    "F": "rftoolsbase:machine_frame",
+    "T": "minecraft:redstone_torch",
+    "i": "#c:ingots/iron"
+  },
+  "pattern": [
+    "iTi",
+    "CFC",
+    "iTi"
+  ],
+  "result": {
+    "count": 1,
+    "id": "rftoolsbuilder:mover"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "mcjtylib:copy_components",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+      "M": "rftoolsbuilder:shape_card_def",
+      "O": "minecraft:obsidian",
+      "x": "#c:dyes/black"
+    },
+    "pattern": [
+      "xOx",
+      "OMO",
+      "xOx"
+    ],
+    "result": {
+      "count": 1,
+      "id": "rftoolsbuilder:shape_card_void"
+    }
+  }
+}

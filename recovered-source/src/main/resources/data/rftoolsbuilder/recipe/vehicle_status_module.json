@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": "rftoolsbuilder:vehicle_card",
+    "g": "minecraft:comparator",
+    "p": "minecraft:paper",
+    "r": "minecraft:redstone"
+  },
+  "pattern": [
+    " C ",
+    "rpr",
+    " g "
+  ],
+  "result": {
+    "count": 1,
+    "id": "rftoolsbuilder:vehicle_status_module"
+  }
+}

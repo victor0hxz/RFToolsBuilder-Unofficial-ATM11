@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": "minecraft:bricks",
+    "i": "#c:ingots/iron",
+    "r": "minecraft:redstone"
+  },
+  "pattern": [
+    " B ",
+    "rir",
+    " B "
+  ],
+  "result": {
+    "count": 1,
+    "id": "rftoolsbuilder:space_chamber_card"
+  }
+}

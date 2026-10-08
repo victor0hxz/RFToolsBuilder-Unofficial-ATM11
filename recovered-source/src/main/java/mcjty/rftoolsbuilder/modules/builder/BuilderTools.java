@@ -1,0 +1,155 @@
+package mcjty.rftoolsbuilder.modules.builder;
+
+import java.util.HashMap;
+import java.util.Map;
+import mcjty.lib.varia.Counter;
+import mcjty.lib.varia.LevelTools;
+import mcjty.rftoolsbuilder.modules.builder.blocks.BuilderTileEntity;
+import mcjty.rftoolsbuilder.modules.builder.blocks.SupportBlock;
+import mcjty.rftoolsbuilder.modules.builder.data.ShapeCardData;
+import mcjty.rftoolsbuilder.modules.builder.items.ShapeCardItem;
+import mcjty.rftoolsbuilder.modules.builder.items.SpaceChamberCardItem;
+import mcjty.rftoolsbuilder.modules.builder.network.PacketChamberInfoReady;
+import mcjty.rftoolsbuilder.setup.RFToolsBuilderMessages;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
+
+public class BuilderTools {
+   public static void returnChamberInfo(Player player) {
+      SpaceChamberRepository.SpaceChamberChannel chamberChannel = getSpaceChamberChannel(player);
+      if (chamberChannel != null) {
+         Level world = LevelTools.getLevel(player.level(), chamberChannel.getDimension());
+         if (world != null) {
+            Counter<BlockState> blocks = new Counter();
+            Counter<BlockState> costs = new Counter();
+            Map<BlockState, ItemStack> stacks = new HashMap<>();
+            BlockPos minCorner = chamberChannel.getMinCorner();
+            BlockPos maxCorner = chamberChannel.getMaxCorner();
+            findBlocks(player, world, blocks, costs, stacks, minCorner, maxCorner);
+            Counter<String> entitiesWithCount = new Counter();
+            Counter<String> entitiesWithCost = new Counter();
+            Map<String, CompoundTag> firstEntity = new HashMap<>();
+            findEntities(world, minCorner, maxCorner, entitiesWithCount, entitiesWithCost, firstEntity);
+            RFToolsBuilderMessages.sendToPlayer(PacketChamberInfoReady.create(blocks, costs, stacks, entitiesWithCount, entitiesWithCost, firstEntity), player);
+         }
+      }
+   }
+
+   @Nullable
+   public static SpaceChamberRepository.SpaceChamberChannel getSpaceChamberChannel(Player player) {
+      ItemStack cardItem = player.getItemInHand(InteractionHand.MAIN_HAND);
+      return getSpaceChamberChannel(player.level(), cardItem);
+   }
+
+   @Nullable
+   public static SpaceChamberRepository.SpaceChamberChannel getSpaceChamberChannel(Level level, ItemStack cardItem) {
+      Integer channel = getChannel(cardItem);
+      if (channel == null) {
+         return null;
+      } else {
+         SpaceChamberRepository repository = SpaceChamberRepository.get(level);
+         return repository.getChannel(channel);
+      }
+   }
+
+   @Nullable
+   public static Integer getChannel(ItemStack card) {
+      if (!card.isEmpty() && (card.getItem() instanceof ShapeCardItem || card.getItem() instanceof SpaceChamberCardItem)) {
+         ShapeCardData data = (ShapeCardData)card.get(BuilderModule.ITEM_SHAPECARD_DATA);
+         if (data == null) {
+            return null;
+         } else {
+            int channel = data.channel();
+            return channel == -1 ? null : channel;
+         }
+      } else {
+         return null;
+      }
+   }
+
+   private static void findEntities(
+      Level world,
+      BlockPos minCorner,
+      BlockPos maxCorner,
+      Counter<String> entitiesWithCount,
+      Counter<String> entitiesWithCost,
+      Map<String, CompoundTag> firstEntity
+   ) {
+      for (Entity entity : world.getEntities(
+         null, new AABB(minCorner.getX(), minCorner.getY(), minCorner.getZ(), maxCorner.getX() + 1, maxCorner.getY() + 1, maxCorner.getZ() + 1)
+      )) {
+         String canonicalName = entity.getClass().getCanonicalName();
+         if (entity instanceof ItemEntity entityItem && !entityItem.getItem().isEmpty()) {
+            String displayName = entityItem.getItem().getHoverName().getString();
+            canonicalName = canonicalName + " (" + displayName + ")";
+         }
+
+         Identifier registryName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+         entitiesWithCount.increment(registryName.toString());
+         if (!firstEntity.containsKey(registryName.toString())) {
+            TagValueOutput entityOutput = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, world.registryAccess());
+            entity.saveWithoutId(entityOutput);
+            CompoundTag entityNBT = entityOutput.buildResult();
+            firstEntity.put(registryName.toString(), entityNBT);
+         }
+
+         if (entity instanceof Player) {
+            entitiesWithCost.increment(registryName.toString(), (Integer)BuilderConfiguration.builderRfPerPlayer.get());
+         } else {
+            entitiesWithCost.increment(registryName.toString(), (Integer)BuilderConfiguration.builderRfPerEntity.get());
+         }
+      }
+   }
+
+   private static void findBlocks(
+      Player harvester,
+      Level world,
+      Counter<BlockState> blocks,
+      Counter<BlockState> costs,
+      Map<BlockState, ItemStack> stacks,
+      BlockPos minCorner,
+      BlockPos maxCorner
+   ) {
+      for (int x = minCorner.getX(); x <= maxCorner.getX(); x++) {
+         for (int y = minCorner.getY(); y <= maxCorner.getY(); y++) {
+            for (int z = minCorner.getZ(); z <= maxCorner.getZ(); z++) {
+               BlockPos p = new BlockPos(x, y, z);
+               BlockState state = world.getBlockState(p);
+               Block block = state.getBlock();
+               if (!BuilderTileEntity.isEmpty(state, block)) {
+                  blocks.increment(state);
+                  if (!stacks.containsKey(state)) {
+                     ItemStack item = block.getCloneItemStack(world, p, state, true, null);
+                     if (!item.isEmpty()) {
+                        stacks.put(state, item);
+                     }
+                  }
+
+                  BlockEntity te = world.getBlockEntity(p);
+                  BlockInformation info = BuilderTileEntity.getBlockInformation(harvester, world, p, block, te);
+                  if (info.getBlockLevel() == SupportBlock.SupportStatus.STATUS_ERROR) {
+                     costs.put(state, -1);
+                  } else {
+                     costs.increment(state, (int)(((Integer)BuilderConfiguration.builderRfPerOperation.get()).intValue() * info.getCostFactor()));
+                  }
+               }
+            }
+         }
+      }
+   }
+}

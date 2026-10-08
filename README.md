@@ -7,7 +7,7 @@
 - [Release with JAR, license and checksums](https://github.com/victor0hxz/RFToolsBuilder-Unofficial-ATM11/releases/tag/mc26.1.2-unofficial-build)
 - [JAR in this repository](downloads/rftoolsbuilder-26.1.2-8.0.0-atm11.jar)
 
-The compiled mod is available above. This repository distributes audited binaries and documentation; the exact modified source was not located. The release remains a prerelease because full gameplay validation has not been repeated.
+The compiled mod is available above. This repository distributes audited binaries, documentation and [recovered Java implementation](recovered-source); the original modified development source was not located. The release remains a prerelease because full gameplay validation has not been repeated.
 
 RFTools building utilities, including the Builder, shape cards and shield systems.
 
@@ -27,6 +27,6 @@ The JAR contains the same production class bytes and resources as the installed 
 
 ## Source availability
 
-This repository currently contains release documentation and audited binaries, **not the exact modified port source**. The matching local source tree was not located. [Upstream source](https://github.com/McJtyMods/RFToolsBuilder/tree/1.21_neo) is provided for attribution and reference and must not be assumed to reproduce this binary. No unmodified upstream code is presented as the source of this port.
+This repository contains audited binaries and [Java source reconstructed from the published JAR](recovered-source). The exact original modified source tree was not located. The recovered code is explicitly decompiled, and recompilation has not been verified. [Upstream source](https://github.com/McJtyMods/RFToolsBuilder/tree/1.21_neo) is provided for attribution and reference and must not be assumed to reproduce this binary. No unmodified upstream code is presented as the source of this port.
 
 Report issues specific to this build to [this repository](https://github.com/victor0hxz/RFToolsBuilder-Unofficial-ATM11/issues), rather than to the upstream authors.

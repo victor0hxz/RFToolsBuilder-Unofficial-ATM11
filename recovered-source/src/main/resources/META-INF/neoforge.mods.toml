@@ -1,0 +1,38 @@
+modLoader="javafml"
+loaderVersion="[2,)"
+license="MIT License https://github.com/McJtyMods/RFToolsBuilder/blob/1.21_neo/LICENCE"
+issueTrackerURL="http://github.com/McJtyMods/RFToolsBuilder/issues"
+displayURL="http://github.com/McJtyMods/RFToolsBuilder/"
+#logoFile="examplemod.png" #optional
+#credits="Thanks for this example mod goes to Java" #optional
+authors="McJty"
+
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
+[[mods]]
+modId="rftoolsbuilder"
+version="${file.jarVersion}"
+displayName="RFToolsBuilder"
+#updateJSONURL="http://myurl.me/" #optional
+description='''
+Everything related to the builder
+'''
+[[dependencies.rftoolsbuilder]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.rftoolsbuilder]]
+    modId="mcjtylib"
+    mandatory=true
+    versionRange="[1.21-9.0.21,)"
+    ordering="AFTER"
+    side="BOTH"
+[[dependencies.rftoolsbuilder]]
+    modId="rftoolsbase"
+    mandatory=true
+    versionRange="[1.21-6.0.11,)"
+    ordering="AFTER"
+    side="BOTH"
