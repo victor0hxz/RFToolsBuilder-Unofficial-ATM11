@@ -1,0 +1,15 @@
+{
+  "modId": "rftoolsbuilder",
+  "originalJar": "rftoolsbuilder-26.1.2-8.0.0-atm11.jar",
+  "originalSha256": "e3f68783aa2237e5a68bb35804552340eb10393dd44dab3a7413a55361f2b88d",
+  "sha256": "eac9fe9d0785f35be54294ed973c1e89c5b355502c814a17de0f565ee764d0e8",
+  "classes": 207,
+  "classMajors": [
+    69
+  ],
+  "archiveIntegrity": "PASS",
+  "licenseUrl": "https://raw.githubusercontent.com/McJtyMods/RFToolsBuilder/1.21_neo/LICENSE",
+  "licenseEmbedded": true,
+  "exactModifiedSourceAvailable": false,
+  "validation": "Previously compiled Java 25 artifact found installed in the ATM11 instance and listed in its mod inventory. ZIP integrity, mod metadata and bytecode version verified. Full gameplay functionality was not retested during publication. The exact modified source tree was not located in the inspected folders."
+}
