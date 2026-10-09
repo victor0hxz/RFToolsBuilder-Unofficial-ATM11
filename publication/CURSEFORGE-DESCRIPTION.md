@@ -46,13 +46,6 @@ The RFTools family shares matching library versions:
 - [RFToolsDimensions: Version Locked](https://www.curseforge.com/minecraft/mc-mods/rftoolsdimensions-unofficial-atm11-fan-build)
 - [RFToolsUtility: Version Locked](https://www.curseforge.com/minecraft/mc-mods/rftoolsutility-unofficial-atm11-fan-build)
 
-The related Mekanism ports for Minecraft 26.1.2 are available here:
-
-- [Mekanism: Version Locked](https://www.curseforge.com/minecraft/mc-mods/mekanism-version-locked)
-- [Mekanism: Tools Version Locked](https://www.curseforge.com/minecraft/mc-mods/mekanism-tools-version-locked)
-- [Mekanism: Generators Version Locked](https://www.curseforge.com/minecraft/mc-mods/mekanism-generators-version-locked)
-- [Mekanism: Additions Version Locked](https://www.curseforge.com/minecraft/mc-mods/mekanism-additions-version-locked)
-
 ## 🧪 ATM11 compatibility
 
 This distribution was prepared for the ATM11 compatibility project. See the GitHub port report for the validation performed on this build. Further testing in your full modpack is required; compatibility with future pack releases is not guaranteed.
