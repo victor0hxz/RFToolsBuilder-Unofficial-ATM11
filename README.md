@@ -71,10 +71,6 @@ The Java implementation in `recovered-source/` was reconstructed from the releas
 
 ## Build and port documentation
 
----
-
-## Build and port documentation
-
 # RFToolsBuilder - Unofficial ATM11 Fan Build
 
 <!-- visible-downloads -->
