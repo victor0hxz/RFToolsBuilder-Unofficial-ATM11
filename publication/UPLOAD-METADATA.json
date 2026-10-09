@@ -1,0 +1,20 @@
+{
+  "displayName": "rftoolsbuilder-26.1.2-8.0.0-atm11.jar",
+  "changelog": "Publish the previously compiled unofficial ATM11 compatibility artifact with original MIT notice. Production bytecode unchanged. Gameplay retesting and source recovery remain pending.\n",
+  "changelogType": "markdown",
+  "releaseType": "beta",
+  "relations": {
+    "projects": [
+      {
+        "type": "requiredDependency",
+        "slug": "mcjtylib-unofficial-atm11-fan-build",
+        "projectID": 1734200
+      },
+      {
+        "type": "requiredDependency",
+        "slug": "rftoolsbase-unofficial-atm11-fan-build",
+        "projectID": 1734569
+      }
+    ]
+  }
+}
